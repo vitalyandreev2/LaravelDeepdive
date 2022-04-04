@@ -21,11 +21,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/hello', function () {
     return view('hello');
-});
+})->name('hello');
 
 Route::get('/about', function () {
     return view('about');
-});
+})->name('about');
 
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::get('/news/category{id}', [NewsController::class, 'category'])->where('id', '\d+')->name('news.category');

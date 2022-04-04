@@ -50,7 +50,7 @@ class Controller extends BaseController
 
         if ($id) {
             $data = [];
-            for ($i=1; $i <= 10; $i++) { 
+            for ($i=1; $i <= 9; $i++) { 
                 $data[] = [
                     'id' => $i,
                     'idCategory' => $id,

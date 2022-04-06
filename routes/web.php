@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\OrderformController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\IndexController as AdminIndexController;
@@ -27,6 +29,12 @@ Route::get('/hello', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
+Route::get('/orderform', [OrderformController::class, 'index'])->name('orderform');
+Route::post('/orderform', [OrderformController::class, 'store'])->name('orderform.store');
 
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::get('/news/category{id}', [NewsController::class, 'category'])->where('id', '\d+')->name('news.category');

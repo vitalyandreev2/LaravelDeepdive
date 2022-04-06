@@ -42,6 +42,8 @@
             <li><a href="{{ route('home') }}" class="text-white">Главная</a></li>
             <li><a href="{{ route('news') }}" class="text-white">Категории новостей</a></li>
             <li><a href="{{ route('about') }}" class="text-white">Подробнее о нас</a></li>
+            <li><a href="{{ route('feedback') }}" class="text-white">Обратная связь</a></li>
+            <li><a href="{{ route('orderform') }}" class="text-white">Форма заказа</a></li>
           </ul>
         </div>
       </div>

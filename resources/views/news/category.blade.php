@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-3">
     @foreach ($newsList as $news)
     <div class="col">
         <div class="card shadow-sm">
@@ -19,4 +19,7 @@
     </div>
     @endforeach
 </div>
+
+{{ $newsList->links() }}
+
 @endsection

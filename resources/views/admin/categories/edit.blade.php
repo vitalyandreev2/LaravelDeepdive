@@ -7,20 +7,18 @@
 
         </div>
     </div>
-    @if($errors->any())
-        @foreach($errors->all() as $error)
-            <x-alert type="danger" :message="$error"/>
-        @endforeach
-    @endif
-    <form action="" method="post">
+    @include('inc.messages')
+    <form action="{{ route('admin.categories.update', ['category' => $category]) }}" method="post">
+        @csrf
+        @method('put')
         <div class="mb-3">
             <label for="title" class="form-label">Наименование</label>
-            <input type="text" class="form-control" name="title" id="title">
+            <input type="text" class="form-control" name="title" id="title" value="{{ $category->title }}">
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Описание</label>
-            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+            <textarea class="form-control" name="description" id="description" rows="3">{!! $category->description !!}</textarea>
         </div>
-        <button type="submit" class="btn btn-success">Добавить</button>
+        <button type="submit" class="btn btn-success">Изменить</button>
     </form>
 @endsection

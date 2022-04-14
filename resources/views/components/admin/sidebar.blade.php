@@ -19,6 +19,12 @@
                     Новости
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.sites.*')) active @endif" href="{{ route('admin.sites.index') }}">
+                    <span data-feather="list"></span>
+                    Источники новостных данных
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

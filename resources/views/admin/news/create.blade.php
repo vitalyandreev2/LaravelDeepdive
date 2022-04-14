@@ -7,13 +7,17 @@
 
         </div>
     </div>
-    @if($errors->any())
-        @foreach($errors->all() as $error)
-            <x-alert type="danger" :message="$error"/>
-        @endforeach
-    @endif
+    @include('inc.messages')
     <form action="{{ route('admin.news.store') }}" method="post">
         @csrf
+        <div class="mb-3">
+            <label for="category_id" class="form-label">Категория</label>
+            <select name="category_id" id="category_id" class="form-control">
+                @foreach($categories as $category)
+                <option value="{{ $category->id }}" @if($category->id === old('$category->id')) selected @endif>{{ $category->title }}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="mb-3">
             <label for="title" class="form-label">Наименование</label>
             <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
@@ -21,6 +25,10 @@
         <div class="mb-3">
             <label for="author" class="form-label">Автор</label>
             <input type="text" class="form-control" name="author" id="author" value="{{ old('author') }}">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Изображение</label>
+            <input type="file" class="form-control" name="image" id="image">
         </div>
         <div class="mb-3"> 
             <label for="status" class="form-label">Статус</label>

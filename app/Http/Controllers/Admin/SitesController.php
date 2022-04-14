@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\News;
-use App\Models\Category;
+use App\Models\Sites;
 
-class NewsController extends Controller
+class SitesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return view('admin.news.index', ['newsList' => News::with('category')->paginate(5)]);
+        return view('admin.sites.index', ['sitesList' => Sites::paginate(5)]);
     }
 
     /**
@@ -26,9 +25,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin.news.create', [
-            'categories' => Category::select('id', 'title')->get()
-        ]);
+        return view('admin.sites.create');
     }
 
     /**
@@ -43,17 +40,14 @@ class NewsController extends Controller
             'title' => ['required', 'string']
         ]);
 
-        $news = News::create($request->only([
-            'category_id',
+        $sites = Sites::create($request->only([
             'title',
-            'author',
-            'image',
-            'status',
+            'url',
             'description',
         ]));
 
-        if($news) {
-            return redirect()->route('admin.news.index')->with('success', 'Запись успешно добавлена');
+        if($sites) {
+            return redirect()->route('admin.sites.index')->with('success', 'Запись успешно добавлена');
         }
 
         return back()->with('error', 'Запись не добавлена');
@@ -76,11 +70,10 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(News $news)
+    public function edit(Sites $site)
     {
-        return view('admin.news.edit', [
-            'news' => $news,
-            'categories' => Category::select('id', 'title')->get()
+        return view('admin.sites.edit', [
+            'site' => $site
         ]);
     }
 
@@ -91,19 +84,16 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(Request $request, Sites $site)
     {
-        $status = $news->fill($request->only([
-            'category_id',
+        $status = $site->fill($request->only([
             'title',
-            'author',
-            'image',
-            'status',
+            'url',
             'description',
         ]))->save();
 
         if($status) {
-            return redirect()->route('admin.news.index')->with('success', 'Запись успешно обновлена');
+            return redirect()->route('admin.sites.index')->with('success', 'Запись успешно обновлена');
         }
 
         return back()->with('error', 'Запись не обновлена');

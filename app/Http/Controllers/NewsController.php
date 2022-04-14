@@ -10,25 +10,22 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $category = app(Category::class);
         return view('news.index', [
-            'categoryList' => $category->getCategories()
+            'categoryList' => Category::active()->paginate(10)
         ]);
     }
 
     public function category(int $idCategory)
     {
-        $news = app(News::class);
         return view('news.category', [
-            'newsList' => $news->getNewsList($idCategory)
+            'newsList' => News::where('category_id', $idCategory)->active()->paginate(9)
         ]);
     }
 
     public function show(int $idCategory, int $id)
     {
-        $news = app(News::class);
         return view('news.show', [
-            'newsItem' => $news->getNews($id)
+            'newsItem' => News::find($id)
         ]);
     }
 }

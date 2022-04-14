@@ -6,5 +6,7 @@
             <h3><a href="{{ route('news.category', ['id' => $cat->id]) }}">{{ $cat->title }}</a></h3>
         </div>
     @endforeach
+
+    {{ $categoryList->links() }}
 </div>
 @endsection

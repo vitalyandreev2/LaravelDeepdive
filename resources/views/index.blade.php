@@ -1,4 +1,4 @@
 @extends('layouts.main')
 @section('content')
-<h1>О проекте</h1>
+<h1>Hello,  {{ $user }}</h1>
 @endsection

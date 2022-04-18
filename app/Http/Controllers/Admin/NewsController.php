@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\Category;
+use App\Http\Requests\News\EditRequest;
+use App\Http\Requests\News\CreateRequest;
 
 class NewsController extends Controller
 {
@@ -37,26 +39,14 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
-
-        $news = News::create($request->only([
-            'category_id',
-            'title',
-            'author',
-            'image',
-            'status',
-            'description',
-        ]));
-
+        $news = News::create($request->validated());
         if($news) {
-            return redirect()->route('admin.news.index')->with('success', 'Запись успешно добавлена');
+            return redirect()->route('admin.news.index')->with('success', __('messages.admin.news.create.success'));
         }
 
-        return back()->with('error', 'Запись не добавлена');
+        return back()->with('error', __('messages.admin.news.create.fail'));
     }
 
     /**
@@ -91,22 +81,14 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(EditRequest $request, News $news)
     {
-        $status = $news->fill($request->only([
-            'category_id',
-            'title',
-            'author',
-            'image',
-            'status',
-            'description',
-        ]))->save();
-
+        $status = $news->fill($request->validated())->save();
         if($status) {
-            return redirect()->route('admin.news.index')->with('success', 'Запись успешно обновлена');
+            return redirect()->route('admin.news.index')->with('success', __('messages.admin.news.update.success'));
         }
 
-        return back()->with('error', 'Запись не обновлена');
+        return back()->with('error', __('messages.admin.news.update.fail'));
     }
 
     /**
@@ -115,8 +97,14 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        //
+        try {
+            $news->delete();
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $e) {
+            \Log::error("News wasn't delete");
+            return response()->json(['status' => 'error'], 400);
+        }
     }
 }

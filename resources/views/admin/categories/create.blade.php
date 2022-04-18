@@ -12,7 +12,8 @@
         @csrf
         <div class="mb-3">
             <label for="title" class="form-label">Наименование</label>
-            <input type="text" class="form-control" name="title" id="title">
+            <input type="text" class="form-control @if($errors->has('title')) alert-danger @endif" name="title" id="title">
+            @error('title') <strong style="color: red">{{ $message }}</strong> @enderror
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Описание</label>

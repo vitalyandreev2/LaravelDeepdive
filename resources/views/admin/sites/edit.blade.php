@@ -13,11 +13,13 @@
         @method('put')
         <div class="mb-3">
             <label for="title" class="form-label">Наименование</label>
-            <input type="text" class="form-control" name="title" id="title" value="{{ $site->title }}">
+            <input type="text" class="form-control @if($errors->has('title')) alert-danger @endif" name="title" id="title" value="{{ $site->title }}">
+            @error('title') <strong style="color: red">{{ $message }}</strong> @enderror
         </div>
         <div class="mb-3">
             <label for="url" class="form-label">url</label>
-            <input type="text" class="form-control" name="url" id="url" value="{{ $site->url }}">
+            <input type="text" class="form-control @if($errors->has('url')) alert-danger @endif" name="url" id="url" value="{{ $site->url }}">
+            @error('url') <strong style="color: red">{{ $message }}</strong> @enderror
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Описание</label>

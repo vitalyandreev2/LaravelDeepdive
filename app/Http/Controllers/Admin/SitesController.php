@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sites;
+use App\Http\Requests\Sites\EditRequest;
+use App\Http\Requests\Sites\CreateRequest;
 
 class SitesController extends Controller
 {
@@ -34,23 +36,13 @@ class SitesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EditRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
-
-        $sites = Sites::create($request->only([
-            'title',
-            'url',
-            'description',
-        ]));
-
+        $sites = Sites::create($request->validated());
         if($sites) {
-            return redirect()->route('admin.sites.index')->with('success', 'Запись успешно добавлена');
+            return redirect()->route('admin.sites.index')->with('success', __('messages.admin.sites.create.success'));
         }
-
-        return back()->with('error', 'Запись не добавлена');
+        return back()->with('error', __('messages.admin.sites.create.fail'));
     }
 
     /**
@@ -84,19 +76,13 @@ class SitesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sites $site)
+    public function update(CreateRequest $request, Sites $site)
     {
-        $status = $site->fill($request->only([
-            'title',
-            'url',
-            'description',
-        ]))->save();
-
+        $status = $site->fill($request->validated())->save();
         if($status) {
-            return redirect()->route('admin.sites.index')->with('success', 'Запись успешно обновлена');
+            return redirect()->route('admin.sites.index')->with('success', __('messages.admin.sites.update.success'));
         }
-
-        return back()->with('error', 'Запись не обновлена');
+        return back()->with('error', __('messages.admin.sites.update.fail'));
     }
 
     /**
@@ -105,8 +91,14 @@ class SitesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Sites $site)
     {
-        //
+        try {
+            $site->delete();
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $e) {
+            \Log::error("News wasn't delete");
+            return response()->json(['status' => 'error'], 400);
+        }
     }
 }

@@ -20,11 +20,13 @@
         </div>
         <div class="mb-3">
             <label for="title" class="form-label">Наименование</label>
-            <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
+            <input type="text" class="form-control @if($errors->has('title')) alert-danger @endif" name="title" id="title" value="{{ old('title') }}">
+            @error('title') <strong style="color: red">{{ $message }}</strong> @enderror
         </div>
         <div class="mb-3">
             <label for="author" class="form-label">Автор</label>
-            <input type="text" class="form-control" name="author" id="author" value="{{ old('author') }}">
+            <input type="text" class="form-control @if($errors->has('author')) alert-danger @endif" name="author" id="author" value="{{ old('author') }}">
+            @error('author') <strong style="color: red">{{ $message }}</strong> @enderror
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Изображение</label>

@@ -4,6 +4,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\OrderformController;
+use App\Http\Controllers\Account\IndexController as AccountIndexController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\IndexController as AdminIndexController;
@@ -41,9 +42,25 @@ Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::get('/news/category{id}', [NewsController::class, 'category'])->where('id', '\d+')->name('news.category');
 Route::get('/news/category{idCategory}/news{id}', [NewsController::class, 'show'])->where(['idCategory' => '\d+', 'id' => '\d+'])->name('news.show');
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
-    Route::get('/', AdminIndexController::class)->name('index');
-    Route::resource('categories', AdminCategoryController::class);
-    Route::resource('news', AdminNewsController::class); 
-    Route::resource('sites', AdminSitesController::class); 
+Route::group(['middleware' => 'auth'], function(){
+
+    Route::group(['prefix' => 'account', 'as' => 'account.'], function(){
+        Route::get('/', AccountIndexController::class)->name('index');
+        Route::get('logout', function(){
+            \Auth::logout();
+            return redirect()->route('login');
+        })->name('logout');
+    });
+
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin.check'], function() {
+        Route::get('/', AdminIndexController::class)->name('index');
+        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('news', AdminNewsController::class); 
+        Route::resource('sites', AdminSitesController::class); 
+    });
+
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

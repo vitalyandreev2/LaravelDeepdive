@@ -7,7 +7,14 @@
             <div class="card">
                 <div class="card-header">{{ __('Вход') }}</div>
 
+                <a href="{{ route('auth.redirect', ['network' => 'vkontakte']) }}">Вход через VK</a>
+                <a href="{{ route('auth.redirect', ['network' => 'github']) }}">Вход через GitHub</a>
+
                 <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                        </div>
+                    </div>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 

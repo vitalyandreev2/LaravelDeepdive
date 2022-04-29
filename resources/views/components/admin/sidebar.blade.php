@@ -25,6 +25,12 @@
                     Источники новостных данных
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.parser.*')) active @endif" href="{{ route('admin.parser') }}">
+                    <span data-feather="list"></span>
+                    Парсер
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

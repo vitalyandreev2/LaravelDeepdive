@@ -82,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +177,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Barryvdh\Debugbar\ServiceProvider::class,
+
+        Orchestra\Parser\XmlServiceProvider::class,
+
     ],
 
     /*
@@ -191,6 +195,8 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'XmlParser' => Orchestra\Parser\Xml\Facade::class,
         // ...
     ])->toArray(),
 
